@@ -19,17 +19,3 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
-  plugin:
-    platforms:
-      android:
-        default_package: activsy
-      ios:
-        default_package: activsy
-      web:
-        default_package: activsy
-      macos:
-        default_package: activsy
-      windows:
-        default_package: activsy
-      linux:
-        default_package: activsy
