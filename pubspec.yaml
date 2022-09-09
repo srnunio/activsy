@@ -2,6 +2,8 @@ name: activsy
 description: reacts when there are no user activities in your application
 version: 1.0.0
 homepage: https://github.com/EdvaldoMartins/activsy
+repository: https://github.com/EdvaldoMartins/activsy
+issue_tracker: https://github.com/EdvaldoMartins/activsy/issues
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -17,3 +19,17 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: activsy
+      ios:
+        default_package: activsy
+      web:
+        default_package: activsy
+      macos:
+        default_package: activsy
+      windows:
+        default_package: activsy
+      linux:
+        default_package: activsy
