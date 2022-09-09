@@ -6,25 +6,37 @@ reacts when there are no user activities in your application
 dependencies:
   activsy: ^1.0.0
 ```
-
 # Usage
-
 ```dart
 void main() {
-  Activsy.config(seconds: 10, noActivity: (){});
+  Activsy.config(seconds: 10, noActivity: () async {
+    /// perform operation
+    /// call the start to continue monitoring 
+  });
   runApp(const MyApp());
 }
 ```
 
-
 ```dart
 ActivsyWidget(
-  detectedMouseAction: true,
+  detectedMouseAction: false,
   builder: (ctx) {
-    return MaterialApp(...);
-  }
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+         primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  },
 )
 ```
+
+After the ```onActivity``` method call the monitoring is terminated
+
+To monitor user interaction with the application just call: ```Activsy.startTimer()```
+
+
 start and set the timer
 ```dart
 Activsy.startTimer()
