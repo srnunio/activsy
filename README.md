@@ -57,3 +57,11 @@ There are several reasons to trigger the noActivity method before the stipulated
 ```
 
 **Note**: call the functions after the **config** method otherwise you will throw an exception
+
+# Support
+You liked this package? then give it a star. If you want to help then:
+
+* Start this repository
+* Send a Pull Request with new features
+* Share this package
+* Create issues if you find a Bug or want to suggest something
