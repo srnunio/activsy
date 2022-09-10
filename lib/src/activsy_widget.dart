@@ -12,12 +12,16 @@ class ActivsyWidget extends StatelessWidget {
 
   ActivsyWidget(
       {required this.builder, this.detectedMouseAction = false, this.onEvent})
-      : assert(Activsy.isInitialized, 'activsy no initialized');
+      : assert(Activsy.isInitialized, () {
+          throw FlutterError(
+              'activsy no initialized.\nMust call the Activsy.config() before the ActivsyWidget');
+          return true;
+        }());
 
   /// notify when has event
   void _onEvent(PointerEvent event) {
     Activsy.reset();
-    if (onEvent != null) onEvent!(event);
+    if (onEvent != null && Activsy.isActive) onEvent!(event);
   }
 
   /// sets up the widget to be shown [_builder]
@@ -37,13 +41,15 @@ class ActivsyWidget extends StatelessWidget {
   /// Here we hear all the events of gestures in our application
   /// Whenever any gesture event is detected the wait time and restarted
   @override
-  Widget build(BuildContext context) => Listener(
-        child: _builder(context),
-        onPointerDown: _onEvent,
-        onPointerUp: _onEvent,
-        onPointerSignal: _onEvent,
-        onPointerMove: _onEvent,
-        onPointerCancel: _onEvent,
-        onPointerHover: _onEvent,
-      );
+  Widget build(BuildContext context) {
+    return Listener(
+      child: _builder(context),
+      onPointerDown: _onEvent,
+      onPointerUp: _onEvent,
+      onPointerSignal: _onEvent,
+      onPointerMove: _onEvent,
+      onPointerCancel: _onEvent,
+      onPointerHover: _onEvent,
+    );
+  }
 }
