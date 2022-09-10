@@ -31,10 +31,10 @@ class Activsy {
     return _instance;
   }
 
-  /// start and set the timer [startTimer]
+  /// start and set the timer [start]
   /// this function to be called after the [config] method
   /// otherwise you will throw an exception
-  static void startTimer() {
+  static void start() {
     if (_instance._showLog) log('activsy::start', time: DateTime.now());
 
     if (_instance._callback == null)
@@ -52,8 +52,8 @@ class Activsy {
     });
   }
 
-  /// stop the timer [stopTimer]
-  static void stopTimer() {
+  /// stop the timer [cancel]
+  static void cancel() {
     if (_instance._showLog) log('activsy::stop', time: DateTime.now());
 
     var timer = _instance._timer;
@@ -75,9 +75,9 @@ class Activsy {
 
     _instance._seconds = _seconds;
 
-    stopTimer();
+    cancel();
 
-    startTimer();
+    start();
   }
 
   /// There are several reasons to trigger the noActivity method before the stipulated timer [trigger]
@@ -87,7 +87,7 @@ class Activsy {
     if (_instance._callback == null)
       throw Exception('this function to be called after the config method');
 
-    stopTimer();
+    cancel();
 
     _instance._callback!();
   }
