@@ -10,7 +10,7 @@ void main() {
   test('start monitor', () async {
     Activsy.config(seconds: 2, noActivity: noActivity);
 
-    Activsy.startTimer();
+    Activsy.start();
     Activsy.reset(seconds: 8);
     Activsy.trigger();
 
@@ -18,6 +18,6 @@ void main() {
   });
 
   test('no initialize failure', () async {
-    Activsy.startTimer();
+    Activsy.start();
   });
 }
