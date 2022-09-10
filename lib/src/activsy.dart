@@ -31,6 +31,11 @@ class Activsy {
     return _instance;
   }
 
+  /// init timer
+  void init() {
+    start();
+  }
+
   /// start and set the timer [start]
   /// this function to be called after the [config] method
   /// otherwise you will throw an exception
