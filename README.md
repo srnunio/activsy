@@ -1,12 +1,16 @@
 # activsy
+
 reacts when there are no user activities in your application
 
 ## Installation
+
 ```yaml
 dependencies:
   activsy: ^1.0.0
 ```
+
 # Usage
+
 ```dart
 void main() {
   Activsy.config(seconds: 10, noActivity: () async {
@@ -27,58 +31,46 @@ void main() {
 }
 ```
 
-
 ```dart
 ActivsyWidget(
-  detectedMouseAction: false,
-  builder: (ctx) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-         primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  },
+    detectedMouseAction: false,
+    builder: (context) {
+        return MaterialApp(
+             title: 'Flutter Demo',
+             theme: ThemeData(primarySwatch: Colors.blue,),
+             home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+    },
 )
 ```
 
 can also intercept interaction events, just implement the  ```onEvent(PointerEvent)``` method
 
 ```dart
-ActivsyWidget( 
-  onEvent: (_){},
-  builder: (ctx) {...},
+ActivsyWidget(
+    onEvent: (_){},
+    builder: (context) {...},
 )
 ```
 
 After the ```onActivity``` method call the monitoring is terminated
 
-To monitor user interaction with the application just call: ```Activsy.start()```
+<img src="/demo.gif" width="240" height="480">
 
-
-start and set the timer
-```dart
-Activsy.start()
-```
-cancel the timer
-```dart
-Activsy.cancel()
-```
-Restore timer
-
-**Note**: From the timer reset it can also change the seconds it must wait before triggering the noActivity
-```dart
-Activsy.reset(seconds: 8);
-```
-There are several reasons to trigger the noActivity method before the stipulated timer
-```dart
- Activsy.trigger()
-```
+| Functions And Attributes  | Description                                                                                                                                              |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| init             | Starts monitoring after setting up. Uses the method `start()`                                                                                            |
+| start            | To monitor user interaction with the application just call `Activsy.start()`. Can be called multiple times but if monitoring is already active nothing happens                                    |
+| cancel           | Ends monitoring `Activsy.reset()`. Can be called multiple times                                                                                          |
+| reset            | Restart monitoring `Activsy.reset()`, he calls `start()` and then `cancel()`. This method also to modify the waiting time:  `Activsy.reset(seconds: 60)` |
+| trigger          | Triggers the onActivity method at any point in the application  `Activsy.trigger()`. There are several reasons to trigger the noActivity method before the stipulated timer                                                                    |
+| isInitialized    | true returns if the setup was made                                                                                                                       |
+| isActive         | true returns if monitoring this active                                                                                                                   |
 
 **Note**: call the functions after the **config** method otherwise you will throw an exception
 
 # Support
+
 You liked this package? then give it a star. If you want to help then:
 
 * Start this repository
