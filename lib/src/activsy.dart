@@ -101,4 +101,8 @@ class Activsy {
   /// this function to be called after the [config] method
   /// otherwise you will throw an exception
   static bool get isInitialized => _instance._callback != null;
+
+  /// checks monitoring is active [isActive]
+  static bool get isActive =>
+      (_instance._timer != null && _instance._timer!.isActive);
 }
