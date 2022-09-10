@@ -15,7 +15,18 @@ void main() {
   });
   runApp(const MyApp());
 }
+
+or
+
+void main() {
+  Activsy.config(seconds: 10, noActivity: () async {
+    /// perform operation
+    /// call the start to continue monitoring 
+  }).init();
+  runApp(const MyApp());
+}
 ```
+
 
 ```dart
 ActivsyWidget(
@@ -32,18 +43,27 @@ ActivsyWidget(
 )
 ```
 
+can also intercept interaction events, just implement the  ```onEvent(PointerEvent)``` method
+
+```dart
+ActivsyWidget( 
+  onEvent: (_){},
+  builder: (ctx) {...},
+)
+```
+
 After the ```onActivity``` method call the monitoring is terminated
 
-To monitor user interaction with the application just call: ```Activsy.startTimer()```
+To monitor user interaction with the application just call: ```Activsy.start()```
 
 
 start and set the timer
 ```dart
-Activsy.startTimer()
+Activsy.start()
 ```
-stop the timer
+cancel the timer
 ```dart
-Activsy.stopTimer()
+Activsy.cancel()
 ```
 Restore timer
 
