@@ -1,4 +1,4 @@
-# activsy
+# [activsy](https://pub.dev/packages/activsy)
 
 reacts when there are no user activities in your application
 
