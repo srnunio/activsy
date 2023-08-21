@@ -6,7 +6,7 @@ reacts when there are no user activities in your application
 
 ```yaml
 dependencies:
-  activsy: ^1.0.1
+  activsy: ^1.0.3
 ```
 
 # Usage
