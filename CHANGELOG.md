@@ -9,3 +9,16 @@
 * Intercept events
 * Change in the name of methods
 * Check active monitoring
+
+## 1.0.2
+* Fix initialize monitoring
+* Fix ```stop``` monitoring
+* Fix ```start``` monitoring
+* Fix ```reset``` monitoring
+* Rename methods 
+* Other fixes 
+
+## 1.0.3
+* Remove time limitation 
+* Update example
+* Other fixes 

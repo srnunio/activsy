@@ -6,27 +6,17 @@ reacts when there are no user activities in your application
 
 ```yaml
 dependencies:
-  activsy: ^1.0.1
+  activsy: ^1.0.3
 ```
 
 # Usage
 
 ```dart
 void main() {
-  Activsy.config(seconds: 10, noActivity: () async {
+  Activsy.initialize(waiTime: 10, onTimeOut: () {
     /// perform operation
     /// call the start to continue monitoring 
-  });
-  runApp(const MyApp());
-}
-
-or
-
-void main() {
-  Activsy.config(seconds: 10, noActivity: () async {
-    /// perform operation
-    /// call the start to continue monitoring 
-  }).init();
+  }); 
   runApp(const MyApp());
 }
 ```
@@ -53,19 +43,18 @@ ActivsyWidget(
 )
 ```
 
-After the ```onActivity``` method call the monitoring is terminated
+After the ```onTimeOut``` method call the monitoring is terminated
 
 <img src="/demo.gif" width="240" height="480">
 
-| Functions And Attributes  | Description                                                                                                                                              |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| init             | Starts monitoring after setting up. Uses the method `start()`                                                                                            |
-| start            | To monitor user interaction with the application just call `Activsy.start()`. Can be called multiple times but if monitoring is already active nothing happens                                    |
-| cancel           | Ends monitoring `Activsy.reset()`. Can be called multiple times                                                                                          |
-| reset            | Restart monitoring `Activsy.reset()`, he calls `start()` and then `cancel()`. This method also to modify the waiting time:  `Activsy.reset(seconds: 60)` |
-| trigger          | Triggers the onActivity method at any point in the application  `Activsy.trigger()`. There are several reasons to trigger the noActivity method before the stipulated timer                                                                    |
-| isInitialized    | true returns if the setup was made                                                                                                                       |
-| isActive         | true returns if monitoring this active                                                                                                                   |
+| Functions And Attributes | Description                                                                                                                                                                     |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| start                    | To monitor user interaction with the application just call `Activsy.start()`. Can be called multiple times but if monitoring is already active nothing happens                  |
+| stop                     | Ends monitoring `Activsy.reset()`. Can be called multiple times                                                                                                                 |
+| reset                    | Restart monitoring `Activsy.reset()`, he calls `start()` and then `stop()`. This method also to modify the waiting time:  `Activsy.updateTime(waiTime: 60)`                     |
+| forceTimeOut             | Triggers the onTimeOut method at any point in the application  `Activsy.forceTimeOut()`. There are several reasons to trigger the noActivity method before the stipulated timer |
+| isInitialized            | true returns if the setup was made                                                                                                                                              |
+| isActive                 | true returns if monitoring this active                                                                                                                                          |
 
 **Note**: call the functions after the **config** method otherwise you will throw an exception
 
