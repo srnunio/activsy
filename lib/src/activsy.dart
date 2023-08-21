@@ -4,105 +4,119 @@ import 'dart:async';
 
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
+
 class Activsy {
+  Activsy._() {
+    _instance = this;
+  }
+
   Timer? _timer;
 
-  /// [_seconds] timer wait time
-  late int _seconds;
+  /// [_waiTime] timer wait time
+  int _waiTime = 0;
 
-  bool _showLog = true;
+  static bool _initialized = false;
 
-  /// return function that will be invoked when the timer is equals to 0 [_callback]
-  void Function()? _callback;
+  static Activsy? _instance;
 
-  static final Activsy _instance = Activsy._internal();
+  late void Function() _callback;
 
-  Activsy._internal();
+  /// [initialize] Initialize the activity monitor,
+  /// all methods threw exception if they are called before this method
+  factory Activsy.initialize(
+      {required int waiTime, required Function() onTimeOut}) {
+    assert(waiTime <= 30, "Standby time should not be more than 30 seconds");
 
-  /// function responsible for setting the return method after the end of the timer [config]
-  factory Activsy.config(
-      {required int seconds,
-      bool showLog = true,
-      required Function() noActivity}) {
-    assert(seconds >= 2);
-    _instance._showLog = showLog;
-    _instance._seconds = seconds;
-    _instance._callback = noActivity;
-    return _instance;
+    _initialized = true;
+    _instance = _instance ?? Activsy._();
+    _instance!._waiTime = waiTime;
+    _instance!._callback = onTimeOut;
+
+    return _instance!;
   }
 
-  /// init timer
-  void init() {
-    start();
+  /// [_trigger] Notify the time exceeded
+  /// Note: This method only works when monitoring is active
+  static void _trigger() {
+    if (!_initialized) {
+      throw Exception('this function to be called after the initialize method');
+    }
+    _instance!._callback();
   }
 
-  /// start and set the timer [start]
-  /// this function to be called after the [config] method
-  /// otherwise you will throw an exception
+  /// [start] Activity monitoring start
+  /// Note: This method only works when monitoring is nat active
   static void start() {
-    if (_instance._showLog) log('activsy::start', time: DateTime.now());
+    if (!_initialized) {
+      throw Exception('this function to be called after the initialize method');
+    }
 
-    if (_instance._callback == null)
-      throw Exception('this function to be called after the config method');
-
-    var timer = _instance._timer;
-
-    var seconds = _instance._seconds;
+    var timer = _instance!._timer;
 
     if (timer != null && timer.isActive) return;
 
-    _instance._timer = Timer(Duration(seconds: seconds), () {
-      _instance._callback!();
-      _instance._timer = null;
-    });
+    _instance!._timer = Timer(Duration(seconds: _instance!._waiTime), _trigger);
   }
 
-  /// stop the timer [cancel]
-  static void cancel() {
-    if (_instance._showLog) log('activsy::stop', time: DateTime.now());
+  /// [stop] Cancel activity monitoring
+  /// Note: This method only works when monitoring is active
+  static void stop() {
+    if (!_initialized) {
+      throw Exception('this function to be called after the initialize method');
+    }
 
-    var timer = _instance._timer;
+    if (_instance!._timer != null) _instance!._timer!.cancel();
 
-    if (timer != null && timer.isActive) timer.cancel();
+    _instance!._timer = null;
   }
 
-  /// restore timer [reset]
-  /// from the timer reset it can also change the seconds it must wait before triggering the [noActivity]
-  /// Note: seconds >= 2
-  static void reset({int? seconds}) {
-    var _seconds = seconds ?? _instance._seconds;
+  /// restore timer [updateTime]
+  /// from the timer reset it can also change the seconds
+  /// it must wait before triggering the [onTimeOut]
+  /// Note: This method only works when monitoring is active and seconds <= 30
+  static void updateTime({required int waiTime}) {
+    if (!_initialized) {
+      throw Exception('this function to be called after the initialize method');
+    }
 
-    assert(_seconds >= 2);
+    assert(waiTime <= 30, "Standby time should not be more than 30 seconds");
 
-    if (_instance._timer == null) return;
+    var timer = _instance!._timer;
 
-    if (_instance._showLog) log('activsy::reset', time: DateTime.now());
+    if (timer == null || !timer.isActive) return;
 
-    _instance._seconds = _seconds;
+    _instance!._waiTime = waiTime;
 
-    cancel();
+    stop();
 
     start();
   }
 
-  /// There are several reasons to trigger the noActivity method before the stipulated timer [trigger]
-  static void trigger() {
-    if (_instance._showLog) log('activsy::trigger', time: DateTime.now());
+  /// Restores activity monitoring [reset]
+  /// Note: This method only works when monitoring is active
+  static void reset() {
+    if (!_initialized) {
+      throw Exception('this function to be called after the initialize method');
+    }
 
-    if (_instance._callback == null)
-      throw Exception('this function to be called after the config method');
+    if (_instance!._timer == null || !_instance!._timer!.isActive) return;
 
-    cancel();
+    stop();
 
-    _instance._callback!();
+    start();
   }
 
-  /// checks if the method has been configured [noActivity]
-  /// this function to be called after the [config] method
+  /// There are several reasons to trigger the [onTimeOut]
+  /// method before the stipulated timer [forceTimeOut]
+  static void forceTimeOut() => _trigger();
+
+  /// checks if the method has been configured [onTimeOut]
+  /// this function to be called after the [initialize] method
   /// otherwise you will throw an exception
-  static bool get isInitialized => _instance._callback != null;
+  static bool get isInitialized => _initialized;
 
   /// checks monitoring is active [isActive]
   static bool get isActive =>
-      (_instance._timer != null && _instance._timer!.isActive);
+      (_instance!._timer != null && _instance!._timer!.isActive);
 }
