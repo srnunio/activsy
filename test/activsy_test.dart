@@ -1,23 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:activsy/activsy.dart';
 
 void main() {
-  void noActivity() {
-    print('noActivity called');
-  }
 
-  test('start monitor', () async {
-    Activsy.config(seconds: 2, noActivity: noActivity);
+  test('initializeTest', () async {
+    Activsy.initialize(waiTime: 3, onTimeOut: ()=> debugPrint("onTimeOut"));
 
     Activsy.start();
-    Activsy.reset(seconds: 8);
-    Activsy.trigger();
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 5));
   });
 
-  test('no initialize failure', () async {
+  test('when not initialized', () async {
     Activsy.start();
   });
 }
