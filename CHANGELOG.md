@@ -17,3 +17,8 @@
 * Fix ```reset``` monitoring
 * Rename methods 
 * Other fixes 
+
+## 1.0.3
+* Remove time limitation 
+* Update example
+* Other fixes 
