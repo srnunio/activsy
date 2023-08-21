@@ -22,7 +22,7 @@ class Activsy {
   /// all methods threw exception if they are called before this method
   factory Activsy.initialize(
       {required int waiTime, required Function() onTimeOut}) {
-    assert(waiTime <= 30, "Standby time should not be more than 30 seconds");
+    // assert(waiTime <= 30, "Standby time should not be more than 30 seconds");
 
     _initialized = true;
     _instance = _instance ?? Activsy._();
@@ -76,7 +76,7 @@ class Activsy {
       throw Exception('this function to be called after the initialize method');
     }
 
-    assert(waiTime <= 30, "Standby time should not be more than 30 seconds");
+    // assert(waiTime <= 30, "Standby time should not be more than 30 seconds");
 
     var timer = _instance!._timer;
 
