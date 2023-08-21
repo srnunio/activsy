@@ -7,18 +7,17 @@ class ActivsyWidget extends StatelessWidget {
 
   final Function(PointerEvent)? onEvent;
 
-  /// [detectedMouseAction] enable/disable mouse detector
-  final bool detectedMouseAction;
+  /// [withMouse] enable/disable mouse detector
+  final bool withMouse;
 
   ActivsyWidget(
-      {required this.builder, this.detectedMouseAction = false, this.onEvent})
+      {required this.builder, this.withMouse = false, this.onEvent})
       : assert(Activsy.isInitialized, () {
           throw FlutterError(
-              'activsy no initialized.\nMust call the Activsy.config() before the ActivsyWidget');
-          return true;
+              'activsy no initialized.\nMust call the Activsy.initialize() before the ActivsyWidget');
         }());
 
-  /// notify when has event
+  /// [_onEvent] notify when has event
   void _onEvent(PointerEvent event) {
     Activsy.reset();
     if (onEvent != null && Activsy.isActive) onEvent!(event);
@@ -27,7 +26,7 @@ class ActivsyWidget extends StatelessWidget {
   /// sets up the widget to be shown [_builder]
   Widget _builder(BuildContext context) {
     // checks whether mouse event holding has been enabled
-    if (detectedMouseAction) {
+    if (withMouse) {
       return MouseRegion(
         child: builder(context),
         onEnter: _onEvent,
