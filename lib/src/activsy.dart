@@ -2,10 +2,6 @@ library activsy;
 
 import 'dart:async';
 
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
-
 class Activsy {
   Activsy._() {
     _instance = this;
