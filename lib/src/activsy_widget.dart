@@ -11,11 +11,12 @@ class ActivsyWidget extends StatelessWidget {
   final bool withMouse;
 
   ActivsyWidget(
-      {required this.builder, this.withMouse = false, this.onEvent})
+      {Key? key, required this.builder, this.withMouse = false, this.onEvent})
       : assert(Activsy.isInitialized, () {
           throw FlutterError(
               'activsy no initialized.\nMust call the Activsy.initialize() before the ActivsyWidget');
-        }());
+        }()),
+        super(key: key);
 
   /// [_onEvent] notify when has event
   void _onEvent(PointerEvent event) {
