@@ -15,14 +15,14 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final GlobalKey<NavigatorState> _globalKey = GlobalKey<NavigatorState>();
-  final int _seconds = 10;
+  final int _waiTime = 3;
 
   void onEvent(dynamic _) {
-    print('onEvent');
+    debugPrint('onEvent');
   }
 
-  void noActivity() async {
-    print('noActivity called :)');
+  void onTimeOut() async {
+    debugPrint('onTimeOut :)');
     await _globalKey.currentState!.pushNamed(AuthenticationPage.route);
     Activsy.start();
   }
@@ -30,13 +30,14 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    Activsy.config(seconds: _seconds, noActivity: noActivity).init();
+    Activsy.initialize(waiTime: _waiTime, onTimeOut: onTimeOut);
+    Activsy.start();
   }
 
   @override
   Widget build(BuildContext context) {
     return ActivsyWidget(
-      detectedMouseAction: false,
+      withMouse: true,
       onEvent: onEvent,
       builder: (ctx) {
         return MaterialApp(
@@ -45,9 +46,8 @@ class _AppState extends State<App> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          initialRoute: TransactionsPage.route,
+          initialRoute: '/',
           onGenerateRoute: AppRouter.route,
-          home: TransactionsPage(),
         );
       },
     );
@@ -56,10 +56,8 @@ class _AppState extends State<App> {
 
 abstract class AppRouter {
   static Route<dynamic> route(RouteSettings settings) {
+    debugPrint("route:: ${settings.name}");
     switch (settings.name) {
-      case TransactionsPage.route:
-        return MaterialPageRoute(builder: (_) => TransactionsPage());
-
       case AuthenticationPage.route:
         return MaterialPageRoute(builder: (_) => AuthenticationPage());
       default:
