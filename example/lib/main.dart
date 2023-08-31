@@ -1,6 +1,6 @@
 import 'package:activsy/activsy.dart';
-import 'package:example/src/authentication.dart';
-import 'package:example/src/transactions.dart';
+import 'package:example/src/secure_page.dart';
+import 'package:example/src/transactions_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,8 +22,7 @@ class _AppState extends State<App> {
   }
 
   void onTimeOut() async {
-    debugPrint('onTimeOut :)');
-    await _globalKey.currentState!.pushNamed(AuthenticationPage.route);
+    await _globalKey.currentState!.pushNamed(SecurePage.route);
     Activsy.start();
   }
 
@@ -47,21 +46,16 @@ class _AppState extends State<App> {
             primarySwatch: Colors.blue,
           ),
           initialRoute: '/',
-          onGenerateRoute: AppRouter.route,
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case SecurePage.route:
+                return MaterialPageRoute(builder: (_) => SecurePage());
+              default:
+                return MaterialPageRoute(builder: (_) => TransactionsPage());
+            }
+          },
         );
       },
     );
-  }
-}
-
-abstract class AppRouter {
-  static Route<dynamic> route(RouteSettings settings) {
-    debugPrint("route:: ${settings.name}");
-    switch (settings.name) {
-      case AuthenticationPage.route:
-        return MaterialPageRoute(builder: (_) => AuthenticationPage());
-      default:
-        return MaterialPageRoute(builder: (_) => TransactionsPage());
-    }
   }
 }
