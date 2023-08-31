@@ -61,13 +61,15 @@ class _TransactionsPageState extends State<TransactionsPage> {
                     Text.rich(TextSpan(children: [
                       TextSpan(
                           text: "\$${item['amount']}",
-                          style: const TextStyle(fontSize: 14.0, color: Colors.grey)),
+                          style: const TextStyle(
+                              fontSize: 14.0, color: Colors.grey)),
                       const TextSpan(
                           text: " • ",
                           style: TextStyle(fontSize: 14.0, color: Colors.grey)),
                       TextSpan(
                           text: "${item['status']}",
-                          style: const TextStyle(fontSize: 14.0, color: Colors.grey))
+                          style: const TextStyle(
+                              fontSize: 14.0, color: Colors.grey))
                     ]))
                   ],
                 )
@@ -79,7 +81,6 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -90,9 +91,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
     _controller.addListener(() {
       if (_controller.position.pixels >
-          _controller.position.maxScrollExtent - 50) {
-        fetchData();
-      }
+          _controller.position.maxScrollExtent - 50) fetchData();
     });
 
     fetchData();
@@ -105,10 +104,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
         title: const Text('Transactions'),
       ),
       body: Column(
-        children: [
-          const SizedBox(height: 10),
-          Expanded(child: _bodyList())
-        ],
+        children: [const SizedBox(height: 10), Expanded(child: _bodyList())],
       ),
     );
   }
