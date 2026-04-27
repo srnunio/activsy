@@ -22,6 +22,7 @@ class _AppState extends State<App> {
   }
 
   void onTimeOut() async {
+    debugPrint('onTimeOut');
     await _globalKey.currentState!.pushNamed(SecurePage.route);
     Activsy.start();
   }
